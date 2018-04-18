@@ -1,4 +1,44 @@
-# lock_mac_screen
+# lockmac 
+
+## Description
+
+lockmac is a simple bash file you can run in terminal to lock your keyboard. To unlock, simply move a mouse or key and your login screen should appear
+
+## Version
+
+Version 1.0.0
+
+## Installation
+
+This is a step by step process to install this script on a mac and run it
+
+### Steps
+
+1. In your /Desktop run:
+
+```git clone https://github.com/jroc-dev/lock_mac_screen.git```
+
+2. Copy the bash file and move it to a path directory
+
+```cp lockmac ~/usr/local/bin```
+
+3. Make it executable
+
+```chmod +x lockmac```
+
+## Usage
+
+This is a step by step process to run this script after installation
+
+### Steps
+
+1. Run from anywhere in Terminal
+
+```lockmac```
+
+2. Unlock by moving your mouse or touching your keyboard. This will bring you to your login screen
+
+## License
 
 The MIT License
 
