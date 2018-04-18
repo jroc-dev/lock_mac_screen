@@ -14,7 +14,7 @@ This is a step by step process to install this script on a mac and run it
 
 ### Steps
 
-1. In your /Desktop run:
+1. In your ```/Desktop``` run:
 
 ```git clone https://github.com/jroc-dev/lock_mac_screen.git```
 
