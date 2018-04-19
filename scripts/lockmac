@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 printusage () {
-    echo "Usage: maclock [-m] [-d] [-q] [-a]"
+    echo "Usage: maclock [-l] [-m] [-d] [-q] [-a]"
     echo ""
     echo "       -l, --lock    : lock the display"
     echo "       -m, --mute    : mute the audio"
@@ -54,7 +54,9 @@ done
 open -a ScreenSaverEngine
 
 # Lock computer
-open -l /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+if [[ $LOCK_COMPUTER = false ]] ; then
+    osascript -e 'tell app "System Events" to  «event aevtrlgo»'
+fi
 
 # Mute the audio
 if [[ $ALL = true ]] || [[ $MUTE = true ]] ; then
