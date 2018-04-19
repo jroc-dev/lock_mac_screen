@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
 printusage () {
-    echo "Usage: maclock [-l]"
+    echo "Usage: maclock [-l] [-s]"
     echo ""
+    echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
 }
 
+SLEEP_COMPUTER=false
 LOCK_COMPUTER=false
 
 for i in "$@"
@@ -14,6 +16,10 @@ do
         --help|-h)
             printusage
             exit 1
+            ;;
+        --sleep|-s)
+            SLEEP_COMPUTER=true
+            shift
             ;;
         --lock|-l)
 	    LOCK_COMPUTER=true
@@ -25,6 +31,13 @@ do
             ;;
     esac
 done
+
+# Sleep computer
+if [[ $SLEEP_COMPUTER=true ]] ; then
+
+	open -a ScreenSaverEngine
+
+fi
 
 # Lock computer
 if [[ $LOCK_COMPUTER = true ]] ; then
