@@ -1,20 +1,12 @@
 #!/usr/bin/env bash
 
 printusage () {
-    echo "Usage: maclock [-l] [-m] [-d] [-q] [-a]"
+    echo "Usage: maclock [-l]"
     echo ""
     echo "       -l, --lock    : lock the display"
-    echo "       -m, --mute    : mute the audio"
-    echo "       -d, --display : sleep the display"
-    echo "       -q, --quiet   : no output"
-    echo "       -a, --all     : --mute and --display"
 }
 
-ALL=false
 LOCK_COMPUTER=false
-SLEEP_DISPLAY=false
-MUTE=false
-QUIET=false
 
 for i in "$@"
 do
@@ -23,24 +15,8 @@ do
             printusage
             exit 1
             ;;
-        --all|-a)
-            ALL=true
-            shift
-            ;;
-        --display|-d)
-            SLEEP_DISPLAY=true
-            shift
-            ;;
         --lock|-l)
 	    LOCK_COMPUTER=true
-            shift
-            ;;
-        --mute|-m)
-            MUTE=true
-            shift
-            ;;
-        --quiet|-q)
-            QUIET=true
             shift
             ;;
         *)
@@ -50,31 +26,11 @@ do
     esac
 done
 
-# Launch screensaver
-open -a ScreenSaverEngine
-
 # Lock computer
-if [[ $LOCK_COMPUTER = false ]] ; then
-    osascript -e 'tell app "System Events" to  «event aevtrlgo»'
-fi
+if [[ $LOCK_COMPUTER = true ]] ; then
 
-# Mute the audio
-if [[ $ALL = true ]] || [[ $MUTE = true ]] ; then
-    if [[ $QUIET = false ]]; then
-        echo "Muting..."
-    fi
-    osascript -e "set Volume 0"
-    if [[ $QUIET = false ]]; then
-        osascript -e "get volume settings"
-    fi
-fi
+    osascript -e 'tell application "System Events"' -e 'log out' -e 'keystroke return' -e end
 
-# Sleep the display
-if [[ $ALL = true ]] || [[ $SLEEP_DISPLAY = true ]] ; then
-    if [[ $QUIET = false ]]; then
-        echo "Display sleep..."
-    fi
-    pmset displaysleepnow
 fi
 
 exit 0
