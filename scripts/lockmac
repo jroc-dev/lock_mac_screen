@@ -3,18 +3,24 @@
 printusage () {
     echo "Usage: maclock [-l] [-s]"
     echo ""
+    echo "       -hi, --hello   : say hello"
     echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
 }
 
 SLEEP_COMPUTER=false
 LOCK_COMPUTER=false
+SAY_HI=false
 
 for i in "$@"
 do
     case $i in
         --help|-h)
             printusage
+            exit 1
+            ;;
+        --hello|-hi)
+            SAY_HI=true
             exit 1
             ;;
         --sleep|-s)
@@ -45,5 +51,11 @@ if [[ $LOCK_COMPUTER = true ]] ; then
     osascript -e 'tell application "System Events"' -e 'log out' -e 'keystroke return' -e end
 
 fi
+
+# Say have a nice day 
+if [[ $SAY_HI = true ]] ; then
+    say "Hello there";
+fi
+
 
 exit 0
