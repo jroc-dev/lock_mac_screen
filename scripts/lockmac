@@ -1,18 +1,16 @@
 #!/usr/bin/env bash
 
 printusage () {
-    echo "Usage: maclock [-l] [-s]"
+    echo "Usage: maclock [-l] [-s] [-i]"
     echo ""
-    echo "      -x, --xout    : logout"
-    echo "       -hi, --hello  : say hello"
     echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
+    echo "       -i, --itunes  : open itunes"
 }
 
-LOGOUT=false
 SLEEP_COMPUTER=false
-LOCK_COMPUTER=false
-SAY_HI=false
+LOGOUT_COMPUTER=false
+OPEN_ITUNES=false
 
 for i in "$@"
 do
@@ -21,20 +19,16 @@ do
             printusage
             exit 1
             ;;
-        --xout|-x)
-           LOGOUT=true
-           exit 1
-           ;;
-        --hello|-hi)
-            SAY_HI=true
-            exit 1
-            ;;
         --sleep|-s)
             SLEEP_COMPUTER=true
             shift
             ;;
         --lock|-l)
-	    LOCK_COMPUTER=true
+	    LOGOUT_COMPUTER=true
+            shift
+            ;;
+        --itunes|-i)
+            OPEN_ITUNES=true
             shift
             ;;
         *)
@@ -51,25 +45,18 @@ if [[ $SLEEP_COMPUTER=true ]] ; then
 
 fi
 
-# Lock computer
-if [[ $LOCK_COMPUTER = true ]] ; then
-
-    osascript -e 'tell application "System Events"' -e 'log out' -e 'keystroke return' -e end
-
+# Logout computer
+if [[ $LOGOUT_COMPUTER = true ]] ; then
+        osascript -e 'tell application "System Events"
+     		      keystroke "q" using {command down, shift down, option down}
+	end tell'
 fi
 
-# Say have a nice day 
-if [[ $SAY_HI = true ]] ; then
-    say "Hello there";
-fi
+# Open iTunes
+if [[ $OPEN_ITUNES = true ]] ; then
 
-#Logout
-if [[ $LOGOUT = true ]] ; then
-osascript <<EOD
-        tell application "System Events"
-                key code 12 using {control down, command down}
-        end tell
-EOD
+	osascript -e "tell application \"iTunes\" to activate"
+
 fi
 
 exit 0
