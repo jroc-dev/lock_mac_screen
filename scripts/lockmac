@@ -1,17 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/env bash
 
 printusage () {
-    echo "Usage: lockmac [-l] [-s] [-i]"
+    echo "Usage: lockmac [-s] [-l] [-c] [-sc] [-i]"
     echo ""
     echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
     echo "       -c, --close   : close all windows"
+    echo "       -sc, --screen : screen capture"
     echo "       -i, --itunes  : open itunes"
 }
 
 SLEEP_COMPUTER=false
 LOGOUT_COMPUTER=false
 CLOSE_WINDOWS=false
+SCREEN_CAPTURE=false
 OPEN_ITUNES=false
 
 for i in "$@"
@@ -31,6 +33,10 @@ do
             ;;
         --close|-c)
             CLOSE_WINDOWS=true
+            shift
+            ;;
+        --screen|-sc)
+            SCREEN_CAPTURE=true
             shift
             ;;
         --itunes|-i)
@@ -63,6 +69,11 @@ if [[ $CLOSE_WINDOWS = true ]] ; then
 	osascript -e 'tell application "Finder"
 		close every window
 	end tell'
+fi
+
+#Screencapture and open in preview
+if [[ $SCREEN_CAPTURE = true ]] ; then
+	screencapture -T -P image.png;
 fi
 
 # Open iTunes
