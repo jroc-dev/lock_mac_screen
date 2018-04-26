@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
 printusage () {
-    echo "Usage: maclock [-l] [-s] [-i]"
+    echo "Usage: lockmac [-l] [-s] [-i]"
     echo ""
     echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
+    echo "       -c, --close   : close all windows"
     echo "       -i, --itunes  : open itunes"
 }
 
 SLEEP_COMPUTER=false
 LOGOUT_COMPUTER=false
+CLOSE_WINDOWS=false
 OPEN_ITUNES=false
 
 for i in "$@"
@@ -25,6 +27,10 @@ do
             ;;
         --lock|-l)
 	    LOGOUT_COMPUTER=true
+            shift
+            ;;
+        --close|-c)
+            CLOSE_WINDOWS=true
             shift
             ;;
         --itunes|-i)
@@ -52,11 +58,19 @@ if [[ $LOGOUT_COMPUTER = true ]] ; then
 	end tell'
 fi
 
+# Close all windows
+if [[ $CLOSE_WINDOWS = true ]] ; then
+	osascript -e 'tell application "Finder"
+		close every window
+	end tell'
+fi
+
 # Open iTunes
 if [[ $OPEN_ITUNES = true ]] ; then
 
 	osascript -e "tell application \"iTunes\" to activate"
-
 fi
+
+# 
 
 exit 0
