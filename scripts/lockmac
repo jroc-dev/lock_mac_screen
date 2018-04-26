@@ -1,13 +1,17 @@
-#!/bin/env bash
+#!i/bin/env bash
 
 printusage () {
-    echo "Usage: lockmac [-s] [-l] [-c] [-sc] [-i]"
+    echo "Usage: lockmac [-s] [-l] [-c] [-sc] [-i] [-in] [-un]"
     echo ""
     echo "       -s, --sleep   : sleep the display"
     echo "       -l, --lock    : lock the display"
     echo "       -c, --close   : close all windows"
     echo "       -sc, --screen : screen capture"
     echo "       -i, --itunes  : open itunes"
+    echo ""
+    echo "Developer Tools Installation"
+    echo "       -in, --inode  : install node"
+    echo "       -un, --unode  : uninstall node"
 }
 
 SLEEP_COMPUTER=false
@@ -15,6 +19,8 @@ LOGOUT_COMPUTER=false
 CLOSE_WINDOWS=false
 SCREEN_CAPTURE=false
 OPEN_ITUNES=false
+INSTALL_NODE=false
+UNINSTALL_NODE=false
 
 for i in "$@"
 do
@@ -41,6 +47,14 @@ do
             ;;
         --itunes|-i)
             OPEN_ITUNES=true
+            shift
+            ;;
+        --inode|-in)
+            INSTALL_NODE=true
+            shift
+            ;;
+        --unode|-un)
+            UNINSTALL_NODE=true
             shift
             ;;
         *)
@@ -81,6 +95,20 @@ if [[ $OPEN_ITUNES = true ]] ; then
 
 	osascript -e "tell application \"iTunes\" to activate"
 fi
+
+#Install node
+if [[ $INSTALL_NODE = true ]] ; then
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
+	brew install node;
+        brew upgrade node;
+        brew update;
+fi
+
+#Uninstall node
+if [[ UNINSTALL_NODE = true ]] ; then 
+	brew uninstall node;
+fi
+
 
 # 
 
